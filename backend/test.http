@@ -1,0 +1,32 @@
+### Health Check
+GET http://localhost:3000/health
+
+### Test Translation - Basic
+POST http://localhost:3000/translate
+Content-Type: application/json
+
+{
+  "text": "rotate to B site now",
+  "sourceLang": "en",
+  "targetLang": "jp"
+}
+
+### Test Translation - With Slang
+POST http://localhost:3000/translate
+Content-Type: application/json
+
+{
+  "text": "ff this game, enemy is inting",
+  "sourceLang": "en",
+  "targetLang": "jp"
+}
+
+### Test Translation - Status
+POST http://localhost:3000/translate
+Content-Type: application/json
+
+{
+  "text": "low hp, need peel",
+  "sourceLang": "en",
+  "targetLang": "kr"
+}
