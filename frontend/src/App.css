@@ -196,3 +196,102 @@ body {
   color: #ffffff;
   flex: 1;
 }
+
+.correct-btn {
+  margin-top: 12px;
+  background: none;
+  border: 1px solid #2a2a4a;
+  color: #888;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.correct-btn:hover {
+  border-color: #4da6ff;
+  color: #4da6ff;
+}
+
+.correction-box {
+  margin-top: 12px;
+}
+
+.correction-input {
+  width: 100%;
+  background: #0f0f1a;
+  color: #ffffff;
+  border: 1px solid #4da6ff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+
+.correction-input:focus {
+  outline: none;
+}
+
+.correction-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.submit-correction-btn {
+  background: #4da6ff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: none;
+  color: #888;
+  border: 1px solid #2a2a4a;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.correction-success {
+  margin-top: 8px;
+  color: #44ff44;
+  font-size: 0.85rem;
+}
+
+.game-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.game-btn {
+  flex: 1;
+  background: #0f0f1a;
+  color: #888;
+  border: 1px solid #2a2a4a;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.game-btn:hover {
+  border-color: #4da6ff;
+  color: #4da6ff;
+}
+
+.game-btn.active {
+  background: #1a2a3a;
+  border-color: #4da6ff;
+  color: #4da6ff;
+  font-weight: 700;
+}

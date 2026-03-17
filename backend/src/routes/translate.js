@@ -5,7 +5,7 @@ const pool = require("../config/db");
 const redisClient = require("../config/redis");
 
 router.post("/", async (req, res) => {
-  const { text, sourceLang, targetLang, userId } = req.body;
+  const { text, sourceLang, targetLang, userId, gamePack } = req.body;
 
   // Basic validation
   if (!text || !sourceLang || !targetLang) {
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 
     // Step 2 — No cache hit, call Claude
     console.log("Cache miss — calling Claude API");
-    const result = await translateText(text, sourceLang, targetLang);
+    const result = await translateText(text, sourceLang, targetLang, gamePack);
 
     // Step 3 — Store in Redis cache (expires after 24 hours)
     await redisClient.setEx(cacheKey, 86400, JSON.stringify(result));

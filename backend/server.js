@@ -19,6 +19,9 @@ app.get("/health", (req, res) => {
 const translateRoute = require("./src/routes/translate");
 app.use("/translate", translateRoute);
 
+const correctRoute = require("./src/routes/correct");
+app.use("/correct", correctRoute);
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

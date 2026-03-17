@@ -17,9 +17,9 @@ const SUPPORTED_LANGUAGES = {
   zh: "Chinese",
 };
 
-async function translateText(text, sourceLang, targetLang) {
+async function translateText(text, sourceLang, targetLang, gamePack = null) {
   // Step 1 — Normalise slang
-  const normalisedText = normaliseSlang(text);
+  const normalisedText = normaliseSlang(text, gamePack);
 
   // Step 2 — Classify intent
   const intent = classifyIntent(normalisedText);

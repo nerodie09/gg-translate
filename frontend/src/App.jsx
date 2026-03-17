@@ -28,6 +28,11 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [history, setHistory] = useState([]);
+  const [correcting, setCorrecting] = useState(false);
+  const [correction, setCorrection] = useState("");
+  const [correctionSuccess, setCorrectionSuccess] = useState(false);
+
+  const [gamePack, setGamePack] = useState(null);
 
   async function handleTranslate() {
     if (!text.trim()) return;
@@ -40,6 +45,7 @@ export default function App() {
         text,
         sourceLang,
         targetLang,
+        gamePack,
       });
       setResult(response.data);
       setHistory((prev) => [response.data, ...prev.slice(0, 9)]);
@@ -54,6 +60,24 @@ export default function App() {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleTranslate();
+    }
+  }
+
+  async function handleCorrection() {
+    if (!correction.trim() || !result) return;
+    try {
+      await axios.post("http://localhost:3000/correct", {
+        originalText: result.originalText,
+        sourceLang: result.sourceLang,
+        targetLang: result.targetLang,
+        correctedText: correction,
+      });
+      setCorrectionSuccess(true);
+      setCorrecting(false);
+      setCorrection("");
+      setTimeout(() => setCorrectionSuccess(false), 4000);
+    } catch (err) {
+      console.error("Correction failed:", err);
     }
   }
 
@@ -90,6 +114,23 @@ export default function App() {
               </option>
             ))}
           </select>
+        </div>
+
+        {/* Game Pack Selector */}
+        <div className="game-row">
+          {["none", "valorant", "dota2"].map((game) => (
+            <button
+              key={game}
+              className={`game-btn ${gamePack === (game === "none" ? null : game) ? "active" : ""}`}
+              onClick={() => setGamePack(game === "none" ? null : game)}
+            >
+              {game === "none"
+                ? "🎮 Generic"
+                : game === "valorant"
+                  ? "⚡ VALORANT"
+                  : "🛡️ DOTA2"}
+            </button>
+          ))}
         </div>
 
         {/* Input */}
@@ -134,6 +175,49 @@ export default function App() {
             {result.normalisedText !== result.originalText && (
               <div className="normalised-text">
                 Normalised: "{result.normalisedText}"
+              </div>
+            )}
+
+            {/* Correction Flow */}
+            {!correcting && (
+              <button
+                className="correct-btn"
+                onClick={() => setCorrecting(true)}
+              >
+                ✏️ Wrong translation? Fix it
+              </button>
+            )}
+            {correcting && (
+              <div className="correction-box">
+                <input
+                  className="correction-input"
+                  placeholder="Enter the correct translation..."
+                  value={correction}
+                  onChange={(e) => setCorrection(e.target.value)}
+                />
+                <div className="correction-actions">
+                  <button
+                    className="submit-correction-btn"
+                    onClick={handleCorrection}
+                  >
+                    Submit
+                  </button>
+                  <button
+                    className="cancel-btn"
+                    onClick={() => {
+                      setCorrecting(false);
+                      setCorrection("");
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+                {correctionSuccess && (
+                  <div className="correction-success">
+                    ✅ Correction saved! Next time this phrase will use your
+                    version.
+                  </div>
+                )}
               </div>
             )}
           </div>

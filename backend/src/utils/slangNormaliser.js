@@ -1,3 +1,6 @@
+const valorantPack = require("../data/vocabulary-packs/valorant");
+const dota2Pack = require("../data/vocabulary-packs/dota2");
+
 const slangDictionary = {
   // General gaming
   gg: "good game",
@@ -41,12 +44,28 @@ const slangDictionary = {
   feeding: "repeatedly dying to the enemy",
 };
 
-function normaliseSlang(text) {
+function normaliseSlang(text, gamePack = null) {
   let normalised = text.toLowerCase().trim();
+
+  // Apply base slang dictionary
   for (const [slang, meaning] of Object.entries(slangDictionary)) {
     const regex = new RegExp(`\\b${slang}\\b`, "gi");
     normalised = normalised.replace(regex, meaning);
   }
+
+  // Apply game-specific vocabulary pack if provided
+  if (gamePack === "valorant") {
+    for (const [term, translation] of Object.entries(valorantPack)) {
+      const regex = new RegExp(`\\b${term}\\b`, "gi");
+      normalised = normalised.replace(regex, translation);
+    }
+  } else if (gamePack === "dota2") {
+    for (const [term, translation] of Object.entries(dota2Pack)) {
+      const regex = new RegExp(`\\b${term}\\b`, "gi");
+      normalised = normalised.replace(regex, translation);
+    }
+  }
+
   return normalised;
 }
 
