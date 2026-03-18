@@ -41,12 +41,15 @@ export default function App() {
     setResult(null);
 
     try {
-      const response = await axios.post("http://localhost:3000/translate", {
-        text,
-        sourceLang,
-        targetLang,
-        gamePack,
-      });
+      const response = await axios.post(
+        "https://gg-translate-production.up.railway.app/translate",
+        {
+          text,
+          sourceLang,
+          targetLang,
+          gamePack,
+        },
+      );
       setResult(response.data);
       setHistory((prev) => [response.data, ...prev.slice(0, 9)]);
     } catch (err) {
@@ -66,12 +69,15 @@ export default function App() {
   async function handleCorrection() {
     if (!correction.trim() || !result) return;
     try {
-      await axios.post("http://localhost:3000/correct", {
-        originalText: result.originalText,
-        sourceLang: result.sourceLang,
-        targetLang: result.targetLang,
-        correctedText: correction,
-      });
+      await axios.post(
+        "https://gg-translate-production.up.railway.app/correct",
+        {
+          originalText: result.originalText,
+          sourceLang: result.sourceLang,
+          targetLang: result.targetLang,
+          correctedText: correction,
+        },
+      );
       setCorrectionSuccess(true);
       setCorrecting(false);
       setCorrection("");
